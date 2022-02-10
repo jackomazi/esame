@@ -66,7 +66,7 @@ class CSVTimeSeriesFile:
                             
                             #se l'elemento è diverso da 0
                             if int(elem) != 0:
-                                    #se la lista2 è vuota inserisco il numero(DOMANI RISCRIVI TOGLIENDO IL VALORE ASSOLUTO,SE IL NUMERO è NEGATIVO DEVO SALTARE LA RIGA) 
+                                    #se la lista2 è vuota inserisco il numero 
                                 if len(lista2)== 0:
                                     lista2.append(abs(int(elem)))
                                 elif len(lista2) == 1 and type(lista2[0])!= int:
@@ -75,7 +75,7 @@ class CSVTimeSeriesFile:
                             try:
                                 float(elem)
                                 if float(elem) > 0:
-                                    #se la lista2 è vuota inserisco il numero(DOMANI RISCRIVI TOGLIENDO IL VALORE ASSOLUTO,SE IL NUMERO è NEGATIVO DEVO SALTARE LA RIGA) 
+                                    #se la lista2 è vuota inserisco il numero
                                     if len(lista2)== 0:
                                         lista2.append(abs(math.floor(float(elem))))
                                     elif len(lista2) == 1 and type(lista2[0])!= int:
@@ -118,14 +118,19 @@ def lista_pass(time_series,mese,first_year,last_year):
         anno = time_series[i][0]
         anno = datetime.datetime.strptime(anno, "%Y-%m")
         #se l'anno della lista è compreso tra gli anni limiti controllo che il mese sia quello che sto cercando
+        diff = int(last_year)-int(first_year)
+        cont = 1
         if int(anno.year) >= int(first_year) and int(anno.year) <= int(last_year):
-            #se il mese è uguale controllo che abbia il numero di passeggeri registrato, altrimenti inserisco None nella lista
+            
+            #se il mese è uguale controllo che abbia il numero di passeggeri registrato, in caso contrario inserisco None nella lista
+            
             if mese == int(anno.month):
                 if len(time_series[i])==1:
                     passeg.append(None)
                 else:
                     #se la lista ha il numero registrato, inserisco quel numero nella lista
                     passeg.append(time_series[i][1])
+                
                 
     #ritorno la lista di passeggeri di quel mese
     return passeg
@@ -247,7 +252,7 @@ def compute_avg_monthly_difference(time_series, first_year, last_year):
             else:
                 i=i+1
 
-           
+
         #se non li trova alzo un'eccezione
         if not trovato1:
             raise ExamException('Il primo anno inserito non è presente nel file.')
